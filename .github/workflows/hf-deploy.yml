@@ -1,0 +1,36 @@
+name: Deploy to HF Space
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'deploy/huggingface-space/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install huggingface-hub
+        run: pip install --quiet huggingface-hub
+      - name: Sync to HF Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          huggingface-cli repo create xmrtnet --type space --sdk streamlit --organization XMRTDAO --yes 2>/dev/null || true
+          cd deploy/huggingface-space
+          git init -b main
+          git remote add origin https://x-access-token:${HF_TOKEN}@huggingface.co/spaces/XMRTDAO/xmrtnet > /dev/null 2>&1
+          git add -A
+          git commit -m "deploy: ${GITHUB_SHA}" || true
+          git push -f https://x-access-token:${HF_TOKEN}@huggingface.co/spaces/XMRTDAO/xmrtnet main
+          echo "Deployed: https://huggingface.co/spaces/XMRTDAO/xmrtnet"
+      - name: Verify Space
+        run: |
+          sleep 15
+          curl -sI https://xmrtnet.hf.space/ | head -n 1
