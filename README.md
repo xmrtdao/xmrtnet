@@ -1,5 +1,9 @@
 # XMRT-Ecosystem - Fully Autonomous DAO
 
+**Live Site:** [https://xmrtdao.github.io/xmrtnet/](https://xmrtdao.github.io/xmrtnet/) | [Fleet Dashboard](https://relay.mobilemonero.com)
+
+---
+
 Welcome to the XMRT-Ecosystem repository! This repository houses the various decentralized applications (dApps) and core components that form the XMRTNET ecosystem, powered by **Autonomous ElizaOS** - a fully autonomous AI agent system.
 
 ## 🎉 Latest Updates (2025-10-24)
